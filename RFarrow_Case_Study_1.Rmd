@@ -1,0 +1,84 @@
+---
+title: "Farrow_Case_Study"
+author: "Richard Farrow"
+date: "6/24/2018"
+output: html_document
+---
+
+```{r Data_Initialization, echo=TRUE}
+library(RCurl)
+beers <- getURL('https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Beers.csv')
+ds_beers <- read.csv(textConnection(beers),header=TRUE)
+head(ds_beers)
+
+breweries <- getURL('https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Breweries.csv')
+ds_breweries <- read.csv(textConnection(breweries),header=TRUE)
+head(ds_breweries)
+```
+
+1. How many breweries are present in each state?
+```{r Question_1, echo=TRUE}
+library(plyr)
+breweries.state <- count(ds_breweries$State)
+colnames(breweries.state) <- c("State","Total Breweries")
+breweries.state
+```
+
+2. Merge beer data with the breweries data. Print the first 6 observations and the last six observations to check the merged file.
+```{r Question_2, echo=TRUE}
+head(ds_beers)
+head(ds_breweries)
+
+colnames(ds_breweries)[1] <- "Brewery_id"
+colnames(ds_breweries)[2] <- "Brewery_Name"
+colnames(ds_beers)[1] <- "Beer_Name"
+
+ds_combined <- merge(ds_beers,ds_breweries,by=c("Brewery_id","Brewery_id"))
+head(ds_combined,6)
+tail(ds_combined,6)
+```
+
+3. Report the number of NA's in each column.
+```{r Question_3, echo=TRUE}
+sapply(ds_combined,function(x) sum(is.na(x)))
+```
+
+4. Compute the median alcohol content and international bitterness unit for each state. Plot a bar chart to compare.
+```{r Question_4, echo=TRUE}
+median_abv <- tapply(ds_combined$ABV,ds_combined$State,median)
+barplot(median_abv)
+median_ibu <- tapply(ds_combined$IBU,ds_combined$State,median)
+barplot(median_ibu)
+```
+
+5. Which state has the maximum alcoholic (ABV) beer? Which state has the most bitter (IBU) beer?
+```{r Question_5, echo=TRUE}
+max_abv <- tapply(ds_combined$ABV,ds_combined$State,max)
+df <- as.data.frame(max_abv)
+max(df,na.rm=TRUE)
+abv_idx <- which(df$max_abv == max(df,na.rm=TRUE))
+for (i in 1:length(abv_idx)){
+  print(df[abv_idx[i],])
+}
+
+max_ibu <- tapply(ds_combined$IBU,ds_combined$State,max)
+df <- as.data.frame(max_ibu)
+max(df,na.rm=TRUE)
+ibu_idx <- which(df$max_ibu == max(df,na.rm=TRUE))
+for (i in 1:length(ibu_idx)){
+  print(df[ibu_idx[i],])
+}
+```
+
+6. Summary statistics for the ABV variable.
+```{r Question_6, echo=TRUE}
+summary(max_abv)
+```
+
+7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
+```{r Question_6, echo=TRUE}
+plot(ds_combined$ABV,ds_combined$IBU)
+plot(max_abv,max_ibu)
+```
+
+
