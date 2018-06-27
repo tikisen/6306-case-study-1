@@ -67,3 +67,45 @@ df_NA <- data.frame(x=colnames_NA, y=number_of_NA)
 colnames(df_NA) <- c("Type of NA", "Frequency")
 df_NA
 ```
+
+## QUestion 4: Median ABV and IBU in Plot
+Computing the median alcohol content and international bitterness unit for each state.
+```{r median_abv_abu}
+abv <- beers2[-which(is.na(beers2$ABV)), c(4,10)] #cleaning up NA for abv
+ibu <- beers2[-which(is.na(beers2$IBU)), c(5,10)] #cleaning up NA for ibu
+med_abv <- data.frame(tapply(abv$ABV, abv$State, median)) #calculate median for abv
+med_ibu <- data.frame(tapply(ibu$IBU, ibu$State, median)) #calculate median for ibu
+med_abv$state <- rownames(med_abv) #makes rownames to State column
+med_ibu$state <- rownames(med_ibu)
+colnames(med_ibu) <- c("Median IBU", "State") # changing the column names
+colnames(med_abv) <- c("Median ABV", "State")
+med_abv_ibu <- join(med_abv, med_ibu, by="State") #join abv and ibu median data
+med_abv_ibu <- med_abv_ibu[,c(2,1,3)] #reordering the column
+med_abv_ibu
+barplot(med_abv_ibu$`Median ABV`, names.arg = med_abv_ibu$State, axis.lty = 1, main="Median ABV for Each State", cex.names = 0.5, xlab="State", ylab="Median ABV")
+barplot(med_abv_ibu$`Median IBU`, names.arg = med_abv_ibu$State, axis.lty = 1, main="Median IBU for Each State", cex.names = 0.5, xlab="State", ylab="Median IBU")
+
+```
+
+
+## Question 5: Maximum ABV and IBU
+```{r max_abv_ibu}
+#State with Maximum ABV
+beers2[which(beers2$ABV==max(beers2$ABV, na.rm = TRUE)),10]
+#State with the most bitter (maximum IBU)
+beers2[which(beers2$IBU==max(beers2$IBU, na.rm = TRUE)),10]
+```
+
+## Question 6: Summary statistics for the ABV variable
+```{r stat_abv}
+summary(beers2$ABV)
+```
+
+## Question 7: Relationship between bitterness and alcoholic contents
+```{r linear_bui_abv}
+plot(beers2$IBU,beers2$ABV, main="Relationship between IBU and ABV of Beers", xlab="IBU", ylab="ABV")
+#Fitting this to linear model
+
+beers2.lm <- lm(beers2$IBU ~ beers2$ABV, data=beers2)
+summary(beers2.lm)
+```
