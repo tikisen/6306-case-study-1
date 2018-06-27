@@ -2,7 +2,9 @@
 title: "CaseStudy_DDS"
 author: "Tahir Ahmad"
 date: "June 21, 2018"
-output: html_document
+output:
+    html_document:
+        keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -22,9 +24,8 @@ This is Case Study on Beers and Breweries. There are two datasets in this study:
 ## Reading the csv files
 
 ```{r read_csv}
-setwd("C:/Users/18880/MSDS_Git/MSDS6306/Homework/CaseStudy1/Tahir")
-beers <- read.csv("C:\\Users\\18880\\Dropbox\\Case Study 1\\Beers.csv")
-breweries <- read.csv("C:\\Users\\18880\\Dropbox\\Case Study 1\\Breweries.csv")
+breweries <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Breweries.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
+beers <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Beers.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
 ```
 ## Question 1: The number of breweries present in each state
 
