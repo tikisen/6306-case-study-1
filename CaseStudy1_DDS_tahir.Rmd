@@ -1,0 +1,112 @@
+---
+title: "CaseStudy_DDS"
+author: "Tahir Ahmad"
+date: "June 21, 2018"
+output:
+    html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## INTRODUCTION
+This is Case Study on Beers and Breweries. There are two datasets in this study: Beers and Breweries. The Beers dataset contains a list of 2410 US craft beers and Breweries dataset contains 558 US breweries. In this study the following questions are answered:
+1) The number of breweries are present in each state
+2) New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
+3) The number of NA's in each column
+4) Computing the median alcohol content and international bitterness unit for each state. 
+5) State that has the maximum alcoholic (ABV) beer. State that has the most bitter (IBU) beer.
+6) Summary statistics for the ABV variable
+7) To report if there is an apparent relationship between the bitterness of the beer and its alcoholic content
+
+## Reading the csv files
+
+```{r read_csv}
+breweries <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Breweries.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
+beers <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Beers.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
+```
+## Question 1: The number of breweries present in each state
+
+```{r breweries_state}
+library(plyr)
+breweries_state <- count(breweries$State)
+colnames(breweries_state) <- c("State", "Number of Breweries")
+breweries_state
+```
+
+## Question 2: Merging of Datasets
+New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
+```{r merging}
+colnames(beers)[5] <- "Brew_ID"
+beers2 <- merge.data.frame(beers, breweries, by = "Brew_ID")
+colnames(beers2)[2] <- "Beers Name"
+colnames(beers2)[8] <- "Breweries Name"
+#Print the first 6 observation
+head(beers2,6)
+#Print the last 6 observation
+tail(beers2,6)
+```
+
+## Question 3: The number of NA's in each column
+The following are the report of the number of NA's in each column
+```{r NA_column}
+NA_Brew_ID <- sum(is.na(beers2$Brew_ID))
+NA_Beers <- sum(is.na(beers2$`Beers Name`))
+NA_Beer_ID <- sum(is.na(beers2$Beer_ID))
+NA_ABV <- sum(is.na(beers2$ABV))
+NA_IBU <- sum(is.na(beers2$IBU))
+NA_Style <- sum(is.na(beers2$Style))
+NA_Ounces <- sum(is.na(beers2$Ounces))
+NA_Breweries <- sum(is.na(beers2$`Breweries Name`))
+NA_City <- sum(is.na(beers2$City))
+NA_State <- sum(is.na(beers2$State))
+number_of_NA <- c(NA_Brew_ID, NA_Beers, NA_Beer_ID, NA_ABV, NA_IBU, NA_Style, NA_Ounces, NA_Breweries, NA_City, NA_State)
+colnames_NA <- c("NA_Brew_ID", "NA_Beers", "NA_Beer_ID", "NA_ABV", "NA_IBU", "NA_Style", "NA_Ounces", "NA_Breweries", "NA_City", "NA_State")
+df_NA <- data.frame(x=colnames_NA, y=number_of_NA)
+colnames(df_NA) <- c("Type of NA", "Frequency")
+df_NA
+```
+
+## QUestion 4: Median ABV and IBU in Plot
+Computing the median alcohol content and international bitterness unit for each state.
+```{r median_abv_abu}
+abv <- beers2[-which(is.na(beers2$ABV)), c(4,10)] #cleaning up NA for abv
+ibu <- beers2[-which(is.na(beers2$IBU)), c(5,10)] #cleaning up NA for ibu
+med_abv <- data.frame(tapply(abv$ABV, abv$State, median)) #calculate median for abv
+med_ibu <- data.frame(tapply(ibu$IBU, ibu$State, median)) #calculate median for ibu
+med_abv$state <- rownames(med_abv) #makes rownames to State column
+med_ibu$state <- rownames(med_ibu)
+colnames(med_ibu) <- c("Median IBU", "State") # changing the column names
+colnames(med_abv) <- c("Median ABV", "State")
+med_abv_ibu <- join(med_abv, med_ibu, by="State") #join abv and ibu median data
+med_abv_ibu <- med_abv_ibu[,c(2,1,3)] #reordering the column
+med_abv_ibu
+barplot(med_abv_ibu$`Median ABV`, names.arg = med_abv_ibu$State, axis.lty = 1, main="Median ABV for Each State", cex.names = 0.5, xlab="State", ylab="Median ABV")
+barplot(med_abv_ibu$`Median IBU`, names.arg = med_abv_ibu$State, axis.lty = 1, main="Median IBU for Each State", cex.names = 0.5, xlab="State", ylab="Median IBU")
+
+```
+
+
+## Question 5: Maximum ABV and IBU
+```{r max_abv_ibu}
+#State with Maximum ABV
+beers2[which(beers2$ABV==max(beers2$ABV, na.rm = TRUE)),10]
+#State with the most bitter (maximum IBU)
+beers2[which(beers2$IBU==max(beers2$IBU, na.rm = TRUE)),10]
+```
+
+## Question 6: Summary statistics for the ABV variable
+```{r stat_abv}
+summary(beers2$ABV)
+```
+
+## Question 7: Relationship between bitterness and alcoholic contents
+```{r linear_bui_abv}
+plot(beers2$IBU,beers2$ABV, main="Relationship between IBU and ABV of Beers", xlab="IBU", ylab="ABV")
+#Fitting this to linear model
+
+beers2.lm <- lm(beers2$IBU ~ beers2$ABV, data=beers2)
+summary(beers2.lm)
+```
