@@ -1,0 +1,105 @@
+---
+title: "MSDS 6306 Case Study 01 "
+author: "Tahir Ahmad, Alec Neff, Rick Farrow, TQ Senkungu aka TART"
+date: "6/28/2018"
+output:
+    html_document:
+        keep_md: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## INTRODUCTION
+This is Case Study on Beers and Breweries. There are two datasets in this study: Beers and Breweries. The Beers dataset contains a list of 2410 US craft beers and Breweries dataset contains 558 US breweries. 
+
+As you're trying to start a craft brewery chain and it's important to know what the market for such items would be. We analyze your data on beers and breweries. Here are some results of some analysis to help build the market analysis for the business plan.
+
+In this analysis, the following questions are answered for your consideration:
+1. The number of breweries are present in each state
+2. New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
+3. The number of NA's in each column
+4. Computing the median alcohol content and international bitterness unit for each state. 
+5. State that has the maximum alcoholic (ABV) beer. State that has the most bitter (IBU) beer.
+6. Summary statistics for the ABV variable
+7. To report if there is an apparent relationship between the bitterness of the beer and its alcoholic content
+
+
+## Reading the csv files
+
+```{r read_csv}
+breweries <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Breweries.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
+beers <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Beers.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
+```
+### 1. This code calculates the number of breweries present in each state.
+
+```{r breweries_state}
+library(plyr)
+breweries_state <- count(breweries$State)
+colnames(breweries_state) <- c("State", "Number of Breweries")
+breweries_state
+```
+
+### 2. Merging of Datasets
+This code is used to combine the two data sets we were given into one called beers2. This new dataset is the merging of dataset Beers and Breweries. We also rename two columns both named Name. We change the one from the Beers data set to Beers Name and the one from the Breweries data set to Breweries Name.
+
+Finally we use some code to show the first six and last six observations.
+```{r merging}
+colnames(beers)[5] <- "Brew_ID"
+beers2 <- merge.data.frame(beers, breweries, by = "Brew_ID")
+colnames(beers2)[2] <- "Beers Name"
+colnames(beers2)[8] <- "Breweries Name"
+#Print the first 6 observation
+head(beers2,6)
+#Print the last 6 observation
+tail(beers2,6)
+```
+  
+### 3. This code will report the number of NA's in each column.  
+```{r,echo=TRUE}
+colSums(is.na(beers2))
+```
+
+### 4. This code will compute the median alcohol content and international bitterness unit for each state and plot a bar chart to compare.
+
+The state with the beer with the highest alcohol by volume is Colorado. The state with the beer with the most bitter beer is Oregon.
+```{r, echo=TRUE}
+abv<-na.omit(beers2$ABV)
+ibu<-na.omit(beers2$IBU)
+median(abv)
+median(ibu)
+median_ABV <- aggregate(ABV~State, beers2, FUN = median)
+barplot(median_ABV$ABV, 
+        space = .25, 
+        xlab = "States", 
+        ylab = "Alcohol by Volume", 
+        main = "Median ABV by State", 
+        names.arg = median_ABV$State, 
+        las=2)
+median_IBU <- aggregate(IBU~State, beers2, FUN = median)
+barplot(median_IBU$IBU, 
+        space = .25, 
+        xlab = "States", 
+        ylab = "Bitterness", 
+        main = "Median IBU by State", 
+        names.arg = median_IBU$State, 
+        las=2)
+```
+
+
+### 5. This code will look in the merged file to determine which state has the maximum alcoholic (ABV) beer and which state has the most bitter (IBU) beer.
+
+```{r maximum values}
+beers2$State[which.max(beers2$ABV)]
+beers2$State[which.max(beers2$IBU)]
+```
+The state with the beer with the highest alcohol by volume is Colorado. The state with the beer with the most bitter beer is Oregon.
+
+### 6. Here is some code to produce some summary statistics for the ABV of the beers.
+
+```{r ABV summary}
+summary(beers2$ABV)
+```
+The lowest ABV is 0.1%, the highest is 12.8%. The average is 5.98% and the middle value is 5.6%. The alcohol content is unreported for 62 beers.
