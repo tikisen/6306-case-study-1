@@ -32,7 +32,7 @@ In this analysis, the following questions are answered for your consideration:
 breweries <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Breweries.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
 beers <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Beers.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
 ```
-###1. The number of breweries present in each state
+### 1. This code calculates the number of breweries present in each state.
 
 
 ```r
@@ -99,8 +99,10 @@ breweries_state
 ## 53 North Woodstock                   1
 ```
 
-###2. Merging of Datasets
-New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
+### 2. Merging of Datasets
+This code is used to combine the two data sets we were given into one called beers2. This new dataset is the merging of dataset Beers and Breweries. We also rename two columns both named Name. We change the one from the Beers data set to Beers Name and the one from the Breweries data set to Breweries Name.
+
+Finally we use some code to show the first six and last six observations.
 
 ```r
 colnames(beers)[5] <- "Brew_ID"
@@ -246,7 +248,7 @@ beers2$State[which.max(beers2$IBU)]
 ```
 The state with the beer with the highest alcohol by volume is Colorado. The state with the beer with the most bitter beer is Oregon.
 
-###6. Here is some code to produce some summary statistics for the ABV of the beers.
+### 6. Here is some code to produce some summary statistics for the ABV of the beers.
 
 
 ```r
