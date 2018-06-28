@@ -18,13 +18,13 @@ This is Case Study on Beers and Breweries. There are two datasets in this study:
 As you're trying to start a craft brewery chain and it's important to know what the market for such items would be. We analyze your data on beers and breweries. Here are some results of some analysis to help build the market analysis for the business plan.
 
 In this analysis, the following questions are answered for your consideration:
-1) The number of breweries are present in each state
-2) New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
-3) The number of NA's in each column
-4) Computing the median alcohol content and international bitterness unit for each state. 
-5) State that has the maximum alcoholic (ABV) beer. State that has the most bitter (IBU) beer.
-6) Summary statistics for the ABV variable
-7) To report if there is an apparent relationship between the bitterness of the beer and its alcoholic content
+1. The number of breweries are present in each state
+2. New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
+3. The number of NA's in each column
+4. Computing the median alcohol content and international bitterness unit for each state. 
+5. State that has the maximum alcoholic (ABV) beer. State that has the most bitter (IBU) beer.
+6. Summary statistics for the ABV variable
+7. To report if there is an apparent relationship between the bitterness of the beer and its alcoholic content
 
 
 ## Reading the csv files
@@ -33,7 +33,7 @@ In this analysis, the following questions are answered for your consideration:
 breweries <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Breweries.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
 beers <- read.csv("https://raw.githubusercontent.com/tikisen/6306-case-study-1/master/Beers.csv", quote = "", row.names = NULL, stringsAsFactors = FALSE, header = TRUE)
 ```
-## Question 1: The number of breweries present in each state
+###1. The number of breweries present in each state
 
 ```{r breweries_state}
 library(plyr)
@@ -42,7 +42,7 @@ colnames(breweries_state) <- c("State", "Number of Breweries")
 breweries_state
 ```
 
-## Question 2: Merging of Datasets
+###2. Merging of Datasets
 New data set is presented called beers_n_breweries. This new dataset is the merging of dataset Beers and Breweries.
 ```{r merging}
 colnames(beers)[5] <- "Brew_ID"
@@ -55,13 +55,12 @@ head(beers2,6)
 tail(beers2,6)
 ```
   
-## 3. This code will report the number of NA's in each column.  
+### 3. This code will report the number of NA's in each column.  
 ```{r,echo=TRUE}
 colSums(is.na(beers2))
 ```
 
-# 4
-### This code will compute the median alcohol content and international bitterness unit for each state and plot a bar chart to compare.
+### 4. This code will compute the median alcohol content and international bitterness unit for each state and plot a bar chart to compare.
 
 The state with the beer with the highest alcohol by volume is Colorado. The state with the beer with the most bitter beer is Oregon.
 ```{r, echo=TRUE}
@@ -69,7 +68,7 @@ abv<-na.omit(beers2$ABV)
 ibu<-na.omit(beers2$IBU)
 median(abv)
 median(ibu)
-median_ABV <- aggregate(ABV~State, beer_merge, FUN = median)
+median_ABV <- aggregate(ABV~State, beers2, FUN = median)
 barplot(median_ABV$ABV, 
         space = .25, 
         xlab = "States", 
@@ -77,7 +76,7 @@ barplot(median_ABV$ABV,
         main = "Median ABV by State", 
         names.arg = median_ABV$State, 
         las=2)
-median_IBU <- aggregate(IBU~State, beer_merge, FUN = median)
+median_IBU <- aggregate(IBU~State, beers2, FUN = median)
 barplot(median_IBU$IBU, 
         space = .25, 
         xlab = "States", 
