@@ -76,7 +76,7 @@ summary(max_abv)
 ```
 
 7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
-```{r Question_6, echo=TRUE}
+```{r Question_7, echo=TRUE}
 plot(ds_combined$ABV,ds_combined$IBU)
 plot(max_abv,max_ibu)
 ```
