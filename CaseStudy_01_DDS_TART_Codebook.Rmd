@@ -59,38 +59,38 @@ summary(beers2)
 - Class of the variable: int
 - Unit of measurement: ordinal assigned to each brewery
 
-###Variable 2: Beer_Name
+### Variable 2: Beer_Name
 - Class of the variable: character
 - Unit of measurement: name given to each Beer
 
-###Variable 3: Beer_ID
+### Variable 3: Beer_ID
 - Class of the variable: character
 - Unit of measurement: numbers assigned as an ID for each beer
 
-###Variable 4: ABV
+### Variable 4: ABV
 - Class of the variable: number
 - Unit of measurement: decimal value which is a percentage of volume of each beer which is alcohol
 
-###Variable 5: IBU
+### Variable 5: IBU
 - Class of the variable: number
 - Unit of measurement: International Bittering Units which is a measure of bitterness of beer.
 
-###Variable 6: Style
+### Variable 6: Style
 - Class of the variable: character
 - Unit of measurement: name for the style of the beer
 
-###Variable 7: Ounces
+### Variable 7: Ounces
 - Class of the variable: character
 - Unit of measurement: how many ounces of beer in a container
 
-###Variable 8: Brewery_Name
+### Variable 8: Brewery_Name
 - Class of the variable: character
 - Unit of measurement: name of the brewery
 
-###Variable 9: City
+### Variable 9: City
 - Class of the variable: character
 - Unit of measurement: name of the city
 
-###Variable 10: State
+### Variable 10: State
 - Class of the variable: character
 - Unit of measurement: state abbreviation
