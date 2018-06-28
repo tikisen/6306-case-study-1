@@ -181,7 +181,6 @@ colSums(is.na(beers2))
 
 ### 4. This code will compute the median alcohol content and international bitterness unit for each state and plot a bar chart to compare.
 
-The state with the beer with the highest alcohol by volume is Colorado. The state with the beer with the most bitter beer is Oregon.
 
 ```r
 abv<-na.omit(beers2$ABV)
@@ -260,3 +259,72 @@ summary(beers2$ABV)
 ## 0.00100 0.05000 0.05600 0.05978 0.06700 0.12800      62
 ```
 The lowest ABV is 0.1%, the highest is 12.8%. The average is 5.98% and the middle value is 5.6%. The alcohol content is unreported for 62 beers.
+
+### 7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
+
+```r
+plot(beers2$ABV,beers2$IBU)
+```
+
+![](CaseStudy_01_DDS_TART_group__files/figure-html/Question_7-1.png)<!-- -->
+
+```r
+max_abv <- tapply(beers2$ABV,beers2$State,max)
+df <- as.data.frame(max_abv)
+max(df,na.rm=TRUE)
+```
+
+```
+## [1] 0.099
+```
+
+```r
+abv_idx <- which(df$max_abv == max(df,na.rm=TRUE))
+for (i in 1:length(abv_idx)){
+  print(df[abv_idx[i],])
+}
+```
+
+```
+##    ID 
+## 0.099 
+##    MA 
+## 0.099 
+##    ME 
+## 0.099 
+##    MN 
+## 0.099 
+##    NJ 
+## 0.099 
+##    OH 
+## 0.099
+```
+
+```r
+max_ibu <- tapply(beers2$IBU,beers2$State,max)
+df <- as.data.frame(max_ibu)
+max(df,na.rm=TRUE)
+```
+
+```
+## [1] 100
+```
+
+```r
+ibu_idx <- which(df$max_ibu == max(df,na.rm=TRUE))
+for (i in 1:length(ibu_idx)){
+  print(df[ibu_idx[i],])
+}
+```
+
+```
+##  NJ 
+## 100
+```
+
+```r
+plot(max_abv,max_ibu)
+```
+
+![](CaseStudy_01_DDS_TART_group__files/figure-html/Question_7-2.png)<!-- -->
+Upon reviewing the scatter plot containing all ABV and IBU values, it is difficult to discern a pattern due to the fluctuations in data and various outliers. However, plotting maximum ABV and IBU in a separate visual, we can observe a strong correlation between the two groups.  
