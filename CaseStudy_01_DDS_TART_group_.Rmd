@@ -76,7 +76,7 @@ barplot(median_ABV$ABV,
         ylab = "Alcohol by Volume", 
         main = "Median ABV by State", 
         names.arg = median_ABV$State, 
-        las=2)
+        las=2, col = "darkgreen")
 median_IBU <- aggregate(IBU~State, beers2, FUN = median)
 barplot(median_IBU$IBU, 
         space = .25, 
@@ -84,7 +84,7 @@ barplot(median_IBU$IBU,
         ylab = "Bitterness", 
         main = "Median IBU by State", 
         names.arg = median_IBU$State, 
-        las=2)
+        las=2, col = "darkgreen")
 ```
 
 
