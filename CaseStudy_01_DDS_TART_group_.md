@@ -208,7 +208,7 @@ barplot(median_ABV$ABV,
         ylab = "Alcohol by Volume", 
         main = "Median ABV by State", 
         names.arg = median_ABV$State, 
-        las=2)
+        las=2, col = "darkgreen")
 ```
 
 ![](CaseStudy_01_DDS_TART_group__files/figure-html/unnamed-chunk-2-1.png)<!-- -->
@@ -221,7 +221,7 @@ barplot(median_IBU$IBU,
         ylab = "Bitterness", 
         main = "Median IBU by State", 
         names.arg = median_IBU$State, 
-        las=2)
+        las=2, col = "darkgreen")
 ```
 
 ![](CaseStudy_01_DDS_TART_group__files/figure-html/unnamed-chunk-2-2.png)<!-- -->
