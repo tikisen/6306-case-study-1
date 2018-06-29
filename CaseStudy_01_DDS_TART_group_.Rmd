@@ -86,7 +86,7 @@ barplot(median_IBU$IBU,
         names.arg = median_IBU$State, 
         las=2, col = "darkgreen")
 ```
-
+The median alcohol by volume is 5.6% and the median ABV is 35.
 
 ### 5. This code will look in the merged file to determine which state has the maximum alcoholic (ABV) beer and which state has the most bitter (IBU) beer.
 

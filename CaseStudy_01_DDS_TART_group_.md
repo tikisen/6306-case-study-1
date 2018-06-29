@@ -225,7 +225,7 @@ barplot(median_IBU$IBU,
 ```
 
 ![](CaseStudy_01_DDS_TART_group__files/figure-html/unnamed-chunk-2-2.png)<!-- -->
-
+The median alcohol by volume is 5.6% and the median ABV is 35.
 
 ### 5. This code will look in the merged file to determine which state has the maximum alcoholic (ABV) beer and which state has the most bitter (IBU) beer.
 
