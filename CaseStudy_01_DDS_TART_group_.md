@@ -263,7 +263,35 @@ The lowest ABV is 0.1%, the highest is 12.8%. The average is 5.98% and the middl
 ### 7. Is there an apparent relationship between the bitterness of the beer and its alcoholic content? Draw a scatter plot.
 
 ```r
-plot(beers2$ABV,beers2$IBU,xlab="ABV",ylab="IBU",main="ABV vs. IBU")
+regline <- lm(beers2$ABV~beers2$IBU,data=beers2) 
+	summary(regline)
+```
+
+```
+## 
+## Call:
+## lm(formula = beers2$ABV ~ beers2$IBU, data = beers2)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.033288 -0.005946 -0.001595  0.004022  0.052006 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 4.493e-02  5.177e-04   86.79   <2e-16 ***
+## beers2$IBU  3.508e-04  1.036e-05   33.86   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.01007 on 1403 degrees of freedom
+##   (1003 observations deleted due to missingness)
+## Multiple R-squared:  0.4497,	Adjusted R-squared:  0.4493 
+## F-statistic:  1147 on 1 and 1403 DF,  p-value: < 2.2e-16
+```
+
+```r
+	with(beers2,plot(beers2$IBU, beers2$ABV,xlab="IBU",ylab="ABV",main="IBU vs. ABV",col="gray"))
+	abline(regline,col="red")
 ```
 
 ![](CaseStudy_01_DDS_TART_group__files/figure-html/Question_7-1.png)<!-- -->
