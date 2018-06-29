@@ -108,7 +108,7 @@ The lowest ABV is 0.1%, the highest is 12.8%. The average is 5.98% and the middl
 regline <- lm(beers2$ABV~beers2$IBU,data=beers2) 
 	summary(regline)
 	
-	with(beers2,plot(beers2$IBU, beers2$ABV,xlab="IBU",ylab="ABV",main="IBU vs. ABV",col="gray"))
-	abline(regline,col="red")
+	with(beers2,plot(beers2$IBU, beers2$ABV,xlab="IBU",ylab="ABV",main="IBU vs. ABV",col="green"))
+	abline(regline,col="red",lwd=3)
 ```
 Upon reviewing the scatter plot containing all ABV and IBU values, it is difficult to discern a pattern due to the fluctuations in data (resulting in a clustered effect) and various outliers. However, upon further visual inspection, the group believes there may be a correlation between alcohol content and bitterness.
