@@ -290,7 +290,7 @@ regline <- lm(beers2$ABV~beers2$IBU,data=beers2)
 ```
 
 ```r
-	with(beers2,plot(beers2$IBU, beers2$ABV,xlab="IBU",ylab="ABV",main="IBU vs. ABV",col="green"))
+	with(beers2,plot(beers2$IBU, beers2$ABV,xlab="IBU",ylab="ABV",main="IBU vs. ABV",col="darkgreen"))
 	abline(regline,col="red",lwd=3)
 ```
 
